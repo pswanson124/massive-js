@@ -8,7 +8,6 @@ var util = require("util");
 var assert = require("assert");
 var ArgTypes = require("./lib/arg_types");
 var path = require("path");
-var DA = require('deasync');
 var stripBom = require('strip-bom');
 
 var self;
@@ -84,7 +83,7 @@ Massive.prototype.run = function(){
   var args = ArgTypes.queryArgs(arguments);
   this.query(args);
 };
-Massive.prototype.runSync = DA(Massive.prototype.run);
+
 
 Massive.prototype.loadQueries = function() {
   walkSqlFiles(this, this.scriptsDir);
@@ -184,7 +183,7 @@ Massive.prototype.saveDoc = function(collection, doc, next){
     });
   }
 };
-Massive.prototype.saveDocSync = DA(Massive.prototype.saveDoc);
+
 
 var MapToNamespace = function(entity, collection) {
   collection = collection || "tables";
@@ -354,5 +353,4 @@ exports.connect = function(args, next){
   });
 };
 
-exports.loadSync = DA(this.connect);
-exports.connectSync = DA(this.connect);
+

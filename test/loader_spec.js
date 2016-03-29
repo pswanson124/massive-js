@@ -33,36 +33,3 @@ describe('On spin up', function () {
   });
 });
 
-var syncLoaded;
-var path = require("path");
-var scriptsDir = path.join(__dirname, ".", "db");
-
-describe('Synchronous Load', function () {
-
-  it('loads the db synchronously and blocks execution until complete', function() {
-    // no need to re-set the back-end; it wasn't changed by the previous 'suite' ...
-    syncLoaded = require("../index").loadSync({connectionString: helpers.connectionString, scripts: scriptsDir});
-    assert(syncLoaded && syncLoaded.tables && syncLoaded.queryFiles && syncLoaded.connectionString);
-  });
-  it('returns a valid db instance from sync load function', function () {
-    assert(syncLoaded && syncLoaded.tables && syncLoaded.queryFiles && syncLoaded.connectionString);
-  });
-  it('loads non-public schema as namespace property', function () {
-    assert(syncLoaded.myschema, "No Schema loaded");
-  });
-  it('loads tables in syncLoaded schema as properties of namespace', function() {
-    assert(syncLoaded.myschema.artists && syncLoaded.myschema.albums, 'No tables loaded on schema');
-  });
-  it('loads up 7 tables with 2 in schema object in array property', function () {
-    assert.equal(syncLoaded.tables.length, 9);
-  });
-
-  // including one nested in a deeper folder... total of 4 now.
-  it('loads up 7 queries', function () {
-    assert.equal(syncLoaded.queryFiles.length, 7);
-  });
-  it('loads up functions', function () {
-    // newer versions of postgres include more than 20 functions
-    assert.ok(syncLoaded.functions.length >= 20);
-  });
-});
