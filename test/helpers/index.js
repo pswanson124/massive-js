@@ -14,11 +14,11 @@ exports.init = function(next){
 
 exports.resetDb = function(next){
   this.init(function(err,db){
+
     assert.ifError(err);
 
     db.schema(function(err){
       assert.ifError(err);
-
       next(null, db);
     });
   });

@@ -81,7 +81,7 @@ Massive.prototype.getTableFilter = function(filter) {
 
 Massive.prototype.run = function(){
   var args = ArgTypes.queryArgs(arguments);
-  this.query(args);
+  return this.query(args);
 };
 
 
@@ -160,7 +160,7 @@ Massive.prototype.saveDoc = function(collection, doc, next){
   }
 
   if(potentialTable) {
-    potentialTable.saveDoc(doc, next);
+    return potentialTable.saveDoc(doc, next);
   } else {
     var _table = new Table({
     schema : schemaName,
@@ -171,16 +171,20 @@ Massive.prototype.saveDoc = function(collection, doc, next){
 
     // Create the table in the back end:
     var sql = this.documentTableSql(collection);
+    return new Promise(function(resolve, reject){
+      self.query(sql, function(err){
+        if(err){
+          reject(err)
+          if(next)
+            next(err,null);
+        } else {
+          MapToNamespace(_table);
+          // recurse
+          return self.saveDoc(collection,doc,next);
+        }
+      });
+    })
 
-    this.query(sql, function(err){
-      if(err){
-        next(err,null);
-      } else {
-        MapToNamespace(_table);
-        // recurse
-        self.saveDoc(collection,doc,next);
-      }
-    });
   }
 };
 
