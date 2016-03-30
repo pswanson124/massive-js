@@ -11,6 +11,7 @@ describe('Queryables', function () {
     });
   });
 
+
   describe('Simple table queries without args', function () {
     it('returns all records on find with no args', function (done) {
       db.products.find(function(err,res){

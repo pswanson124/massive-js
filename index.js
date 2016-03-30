@@ -9,7 +9,7 @@ var assert = require("assert");
 var ArgTypes = require("./lib/arg_types");
 var path = require("path");
 var stripBom = require('strip-bom');
-
+var Promise = require("bluebird");
 var self;
 
 var Massive = function(args){
@@ -324,16 +324,30 @@ Massive.prototype.loadFunctions = function(next) {
 
 //connects Massive to the DB
 exports.connect = function(args, next){
+  if(next){
+    loadUp(args, next);
+  }else{
+    return new Promise(function(resolve, reject){
+      loadUp(args,function(err,res){
+        if(err){
+          reject(err);
+        }else{
+          resolve(res);
+        }
+      });
+    });
+  }
+};
+
+var loadUp = function(args, next){
   assert((args.connectionString || args.db), "Need a connectionString or db (name of database on localhost) at the very least.");
 
   //override if there's a db name passed in
   if (args.db) {
     args.connectionString = "postgres://localhost/"+args.db;
   }
-
   var massive = new Massive(args);
-
-  //load up the tables, queries, and commands
+    //load up the tables, queries, and commands
   massive.loadTables(function(err, db) {
     //handle error if loading the functions fails and bubble it up
     if (err) {
@@ -347,10 +361,17 @@ exports.connect = function(args, next){
         assert(!err, err);
         //synchronous
         db.loadQueries();
-        next(null,db);
+
+        if(next){
+          next(null,db);
+        }else{
+          return new Promise(function(resolve, reject){
+            resolve(db);
+          });
+        }
+        
       });
     });
   });
-};
-
+}
 
