@@ -1,4 +1,3 @@
-var assert = require("assert");
 var massive = require("../index");
 
 describe('a promise-based connection', function () {

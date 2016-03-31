@@ -174,7 +174,7 @@ Massive.prototype.saveDoc = function(collection, doc, next){
     return new Promise(function(resolve, reject){
       self.query(sql, function(err){
         if(err){
-          reject(err)
+          reject(err);
           if(next)
             next(err,null);
         } else {
@@ -182,9 +182,8 @@ Massive.prototype.saveDoc = function(collection, doc, next){
           // recurse + resolve inner promise
           resolve(self.saveDoc(collection,doc,next));
         }
-      })
-    })
-
+      });
+    });
   }
 };
 
@@ -369,13 +368,12 @@ var loadUp = function(args, next){
         if(next){
           next(null,db);
         }else{
-          return new Promise(function(resolve, reject){
+          return new Promise(function(resolve){
             resolve(db);
           });
         }
-        
       });
     });
   });
-}
+};
 
