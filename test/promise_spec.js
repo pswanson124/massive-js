@@ -47,7 +47,7 @@ describe('using promises for queries', function () {
     return db.products.save({name : "Gibson Les Paul", description : "Lester's brain child", price : 3500});
   });
   it('executes for saving a document', function () {
-    return db.saveDoc("puppies", {name : "Fido", age : 999});
+    return db.saveDoc("doggies", {name : "Fido", age : 999});
   });
 
 });
