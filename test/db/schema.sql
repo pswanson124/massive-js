@@ -5,6 +5,8 @@ drop table if exists "Users";
 drop table if exists products cascade;
 drop table if exists docs;
 drop table if exists orders;
+drop table if exists doggies;
+
 
 create table "Users"(
   "Id" serial primary key,

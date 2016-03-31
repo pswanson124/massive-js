@@ -46,12 +46,9 @@ describe('using promises for queries', function () {
   it('executes for save', function () {
     return db.products.save({name : "Gibson Les Paul", description : "Lester's brain child", price : 3500});
   });
-
-  //TODO: This test runs just fine on its own and as part of the file
-  //however when the entire test suite is run, it times out for no apparent reason and soaks up a connection
-  // it('executes for saving a document', function () {
-  //   return db.saveDoc("doggies", {name : "Fido", age : 999});
-  // });
+  it('executes for saving a document', function () {
+    return db.saveDoc("puppies", {name : "Fido", age : 999});
+  });
 
 });
 

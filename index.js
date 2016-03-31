@@ -179,10 +179,10 @@ Massive.prototype.saveDoc = function(collection, doc, next){
             next(err,null);
         } else {
           MapToNamespace(_table);
-          // recurse
-          return self.saveDoc(collection,doc,next);
+          // recurse + resolve inner promise
+          resolve(self.saveDoc(collection,doc,next));
         }
-      });
+      })
     })
 
   }
