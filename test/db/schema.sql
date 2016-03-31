@@ -6,6 +6,7 @@ drop table if exists products cascade;
 drop table if exists docs;
 drop table if exists orders;
 drop table if exists doggies;
+drop table if exists puppies;
 
 
 create table "Users"(
