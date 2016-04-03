@@ -317,11 +317,11 @@ Massive.prototype.loadFunctions = function(next) {
           MapToNamespace(_exec, "functions");
         });
 
-        next(null, self);
+        next(err, self);
       }
     });
   } else {
-    next(null, self);
+    next(err, self);
   }
 };
 
