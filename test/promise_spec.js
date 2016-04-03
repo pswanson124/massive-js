@@ -4,24 +4,24 @@ var helpers = require("./helpers");
 
 
 
-// describe('a promise-based connection', function () {
-//   it('connects using a promise', function () {
-//     return massive.connect({db: "massive"});
-//   });
-// });
+describe('a promise-based connection', function () {
+  it('connects using a promise', function () {
+    return massive.connect({db: "massive"});
+  });
+});
 
 
 describe('using promises', function () {
   var db;
-  before(function(done){
-    return massive.connect({db: "massive"}).then(function(res){
-      db = res;
-      done();
-    });
-  });
-
 
   describe('basic table and query functions with promises', function() {
+    before(function(done) {
+      helpers.resetDb(function(err,res) {
+        db = res;
+        done();
+      });
+    });
+
     it('will execute find', function () {
       return db.products.find();
     });
