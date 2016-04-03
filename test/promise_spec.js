@@ -71,26 +71,13 @@ describe('using promises', function () {
       assert(db.inStockProducts, "Not there");
     });
     it('executes a sql file with zero params', function () {
-      db.inStockProducts()
-      .then(function(products) { 
-        assert.equal(2, products.length);
-      });
+      return db.inStockProducts();
     });
     it('executes productById with a primitive param', function () {
-      return db.special.productById(1)
-      .then(function(products) { 
-          var p1 = products[0];
-          assert.equal("Product 1", p1.name);
-        });
+      return db.special.productById(1);
     });
     it('executes productByName with multiple params', function () {
-      return db.productByName(["Product 1", "Product 2"])
-      .then(function(products) { 
-        var p1 = products[0];
-        var p2 = products[1];
-        assert.equal("Product 1", p1.name);
-        assert.equal("Product 2", p2.name);
-      });
+      return db.productByName(["Product 1", "Product 2"]);
     });
 
   });
@@ -108,24 +95,14 @@ describe('using promises', function () {
     it("has an all_products function attached", function () {
       assert(db.all_products, "no all_products function");
     });
-
     it('executes all products', function () {
-      return db.all_products()
-      .then(function(res) { 
-        assert(res.length > 0);
-      });
+      return db.all_products();
     });
     it('executes all myschema.albums for a schema-bound function', function () {
-      return db.myschema.all_albums()
-        .then(function(res) { 
-          assert(res.length > 0);
-        });
-      });
+      return db.myschema.all_albums();
+    });
     it('executes artists with param', function () {
-      return db.myschema.artist_by_name('AC/DC')
-        .then(function(res) { 
-          assert(res.length > 0);
-        });
+      return db.myschema.artist_by_name('AC/DC');
     });
   });
 
