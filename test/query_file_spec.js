@@ -61,21 +61,18 @@ describe('Queries built from files', function () {
       });
     });
 
-    it('streams inStockProducts without params', function (done) {
+    it('streams inStockProducts without params', function () {
       db.inStockProducts({stream: true}, function(err, stream) {
         assert.ifError(err);
 
         var result = [];
-
         stream.on('readable', function() {
           var res = stream.read();
-
           if (res) { result.push(res); }
         });
 
         stream.on('end', function () {
           assert.equal(2, result.length);
-          done();
         });
       });
     });
@@ -88,7 +85,6 @@ describe('Queries built from files', function () {
 
         stream.on('readable', function() {
           var res = stream.read();
-
           if (res) { result.push(res); }
         });
 
